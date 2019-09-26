@@ -8,9 +8,7 @@ namespace Homework {
 
 	class Program {
 
-		static void Main(string[] args) {
-			Begin1();
-		}
+		static void Main(string[] args) => Begin1();
 
 		static void Begin1() {
 			int a = int.Parse(Console.ReadLine());
