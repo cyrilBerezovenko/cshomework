@@ -8,6 +8,8 @@ namespace Integer {
 
 	class Program {
 
+		static void Main(string[] args) => Integer1();
+
 		static int ReadInt() => int.Parse(Console.ReadLine());
 
 		static void Write(object obj) => Console.WriteLine(obj);
@@ -191,7 +193,5 @@ namespace Integer {
 			int n = ReadInt();
 			Write(n/100 + Convert.ToInt32(n % 100 != 0));
 		}
-
-		static void Main(string[] args) => Integer30();
 	}
 }
