@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TicGame>
+	<size>3</size>
+	<players>2</players>
+	<initMessage>
+controls :
+qwe
+asd
+zxc
+	</initMessage>
+	
+	<pauseMessage>press enter to continue</pauseMessage>
+	<winMessage>player {0} won</winMessage>
+	<drawMessage>draw</drawMessage>
+
+	<keyMapping>
+		<item>
+			<key><string>q</string></key>
+			<value><int>1</int></value>
+		</item>
+		<item>
+			<key><string>w</string></key>
+			<value><int>2</int></value>
+		</item>
+		<item>
+			<key><string>e</string></key>
+			<value><int>3</int></value>
+		</item>
+		<item>
+			<key><string>a</string></key>
+			<value><int>4</int></value>
+		</item>
+		<item>
+			<key><string>s</string></key>
+			<value><int>5</int></value>
+		</item>
+		<item>
+			<key><string>d</string></key>
+			<value><int>6</int></value>
+		</item>
+		<item>
+			<key><string>z</string></key>
+			<value><int>7</int></value>
+		</item>
+		<item>
+			<key><string>x</string></key>
+			<value><int>8</int></value>
+		</item>
+		<item>
+			<key><string>c</string></key>
+			<value><int>9</int></value>
+		</item>
+	</keyMapping>
+
+	<symbolMapping>
+		<item>
+			<key><int>0</int></key>
+			<value><string>X</string></value>
+		</item>
+		<item>
+			<key><int>1</int></key>
+			<value><string>O</string></value>
+		</item>
+	</symbolMapping>
+</TicGame>

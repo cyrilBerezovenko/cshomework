@@ -11,6 +11,7 @@ namespace fractions {
 		static void Main(string[] args) {
 			Fraction a = new Fraction(8, -9);
 			Fraction b = new Fraction(-3, 4);
+			Console.WriteLine(a + " + " + 1 + " = " + (a + 1));
 			Console.WriteLine(a + " + " + b + " = " + (a + b));
 			Console.WriteLine(a + " - " + b + " = " + (a - b));
 			Console.WriteLine(a + " * " + b + " = " + (a * b));

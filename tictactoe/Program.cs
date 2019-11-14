@@ -9,8 +9,10 @@ namespace tictactoe {
 	class Program {
 
 		static void Main(string[] args) {
-			TicGame ticGame = new TicGame();
-			ticGame.PlayGame();
+			string file = "../../resources/TicGameConfig.xml";
+			TicGameFactory factory = new TicGameFactory();
+			TicGame game = factory.CreateTicGame(file);
+			game.PlayGame();
 		}
 	}
 }

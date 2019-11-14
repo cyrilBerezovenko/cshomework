@@ -3,35 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace tictactoe {
 
-	class TicGame {
+	[Serializable]
+	[System.Xml.Serialization.XmlRoot("TicGame")]
+	public class TicGame {
 
-		static int size = 3;
-		static int players = 2;
+		
+		public int size;
+		public int players;
 
-		static string initMessage = "controls :\n" +
-									"qwe\nasd\nzxc";
+		public string initMessage;
 
-		static string pauseMessage = "press enter to continue";
-		static string winMessage = "player {0} won";
-		static string drawMessage = "draw";
+		public string pauseMessage;
+		public string winMessage;
+		public string drawMessage;
 
-		static Dictionary<char, int> keyMapping = new Dictionary<char, int>
-		{ { 'q', 1 }, { 'w', 2 }, { 'e', 3 },
-		  { 'a', 4 }, { 's', 5 }, { 'd', 6 },
-		  { 'z', 7 }, { 'x', 8 }, { 'c', 9 } };
+		public XmlSerializableDictionary<string, int> keyMapping;
 
-		static Dictionary<int, char> symbolMapping = new Dictionary<int, char>
-		{ { 0, 'X' }, { 1, 'O' } };
+		public XmlSerializableDictionary<int, string> symbolMapping;
 
-		static int[][] wins = { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 },
+		public int[][] wins = { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 },
 								new int[] { 7, 8, 9 }, new int[] { 1, 4, 7 },
 								new int[] { 2, 5, 8 }, new int[] { 3, 6, 9 },
-								new int[] { 1, 5, 9 }, new int[] { 3, 5, 7 } };
+								new int[] { 1, 5, 9 }, new int[] { 3, 5, 7 } }; // todo to xml
 
-		char[] table = new char[size * size + 1];
+		char[] table;
 		bool isGameOver = false;
 		string gameOverMessage;
 		int currentPlayer = 0;
@@ -57,8 +58,8 @@ namespace tictactoe {
 				return;
 			
 
-			int keyIndex = keyMapping[input];
-			char symbol = symbolMapping[currentPlayer];
+			int keyIndex = keyMapping[""+input];
+			char symbol = symbolMapping[currentPlayer][0];
 			table[keyIndex] = symbol;
 
 			char? winner = FindWinner();
@@ -105,6 +106,7 @@ namespace tictactoe {
 		}
 
 		void InitTable() {
+			table = new char[size * size + 1];
 			for (int index = 0; index < table.Length; index++)
 				table[index] = '.';
 		}
@@ -123,6 +125,6 @@ namespace tictactoe {
 		void NextPlayer() => currentPlayer = (currentPlayer + 1) % players;
 
 		bool IsValidInput(char input) =>
-			keyMapping.ContainsKey(input) && table[keyMapping[input]] == '.';
+			keyMapping.ContainsKey(""+input) && table[keyMapping[""+input]] == '.';
 	}
 }
