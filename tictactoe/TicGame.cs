@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,124 +7,136 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace tictactoe {
+namespace tictactoe
+{
 
-	[Serializable]
-	[System.Xml.Serialization.XmlRoot("TicGame")]
-	public class TicGame {
+    [Serializable]
+    [System.Xml.Serialization.XmlRoot("TicGame")]
+    public class TicGame
+    {
 
-		
-		public int size;
-		public int players;
 
-		public string initMessage;
+        public int size;
+        public int players;
 
-		public string pauseMessage;
-		public string winMessage;
-		public string drawMessage;
+        public string initMessage;
 
-		public XmlSerializableDictionary<string, int> keyMapping;
+        public string pauseMessage;
+        public string winMessage;
+        public string drawMessage;
 
-		public XmlSerializableDictionary<int, string> symbolMapping;
+        public XmlSerializableDictionary<string, int> keyMapping;
 
-		public int[][] wins = { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 },
-								new int[] { 7, 8, 9 }, new int[] { 1, 4, 7 },
-								new int[] { 2, 5, 8 }, new int[] { 3, 6, 9 },
-								new int[] { 1, 5, 9 }, new int[] { 3, 5, 7 } }; // todo to xml
+        public XmlSerializableDictionary<int, string> symbolMapping;
 
-		char[] table;
-		bool isGameOver = false;
-		string gameOverMessage;
-		int currentPlayer = 0;
+        public int[][] wins;
 
-		public void PlayGame() {
-			Start();
-			while (!isGameOver)
-				Update();
-			Console.WriteLine(gameOverMessage);
-		}
+        char[] table;
+        bool isGameOver = false;
+        string gameOverMessage;
+        int currentPlayer = 0;
 
-		void Start() {
-			Console.WriteLine(initMessage);
-			Pause();
-			InitTable();
-		}
+        public void PlayGame()
+        {
+            Start();
+            while (!isGameOver)
+                Update();
+            Console.WriteLine(gameOverMessage);
+        }
 
-		void Update() {
-			Render();
+        void Start()
+        {
+            Console.WriteLine(initMessage);
+            Pause();
+            InitTable();
+        }
 
-			char input = GetInput();
-			if(!IsValidInput(input)) 
-				return;
-			
+        void Update()
+        {
+            Render();
 
-			int keyIndex = keyMapping[""+input];
-			char symbol = symbolMapping[currentPlayer][0];
-			table[keyIndex] = symbol;
+            char input = GetInput();
+            if (!IsValidInput(input))
+                return;
 
-			char? winner = FindWinner();
-			if (winner.HasValue) {
-				gameOverMessage = string.Format(winMessage, winner);
-				isGameOver = true;
-				Render();
-				return;
-			}
 
-			if (IsDraw()) {
-				gameOverMessage = drawMessage;
-				isGameOver = true;
-				Render();
-				return;
-			}
+            int keyIndex = keyMapping["" + input];
+            char symbol = symbolMapping[currentPlayer][0];
+            table[keyIndex] = symbol;
 
-			NextPlayer();
-		}
+            char? winner = FindWinner();
+            if (winner.HasValue)
+            {
+                gameOverMessage = string.Format(winMessage, winner);
+                isGameOver = true;
+                Render();
+                return;
+            }
 
-		void Render() {
-			ClearOutput();
+            if (IsDraw())
+            {
+                gameOverMessage = drawMessage;
+                isGameOver = true;
+                Render();
+                return;
+            }
 
-			for (int line = 0; line < size; line++) {
-				for (int char_index = 1; char_index <= size; char_index++) {
-					Console.Write(table[line * size + char_index]);
-				}
-				Console.WriteLine();
-			}
-		}
+            NextPlayer();
+        }
 
-		char? FindWinner() {
-			char? winner = null;
+        void Render()
+        {
+            ClearOutput();
 
-			foreach (int[] win in wins) {
-				if (table[win[0]] == '.') continue;
-				if (win.All(index => table[index] == table[win[0]])) {
-					winner = table[win[0]];
-					break;
-				}
-			}
+            for (int line = 0; line < size; line++)
+            {
+                for (int char_index = 1; char_index <= size; char_index++)
+                {
+                    Console.Write(table[line * size + char_index]);
+                }
+                Console.WriteLine();
+            }
+        }
 
-			return winner;
-		}
+        char? FindWinner()
+        {
+            char? winner = null;
 
-		void InitTable() {
-			table = new char[size * size + 1];
-			for (int index = 0; index < table.Length; index++)
-				table[index] = '.';
-		}
+            foreach (int[] win in wins)
+            {
+                if (table[win[0]] == '.') continue;
+                if (win.All(index => table[index] == table[win[0]]))
+                {
+                    winner = table[win[0]];
+                    break;
+                }
+            }
 
-		void Pause() {
-			Console.WriteLine(pauseMessage);
-			Console.ReadLine();
-		}
+            return winner;
+        }
 
-		bool IsDraw() => table.Skip(1).All(key => key != '.');
+        void InitTable()
+        {
+            table = new char[size * size + 1];
+            for (int index = 0; index < table.Length; index++)
+                table[index] = '.';
+        }
 
-		void ClearOutput() => Console.Clear();
+        void Pause()
+        {
+            Console.WriteLine(pauseMessage);
+            Console.ReadLine();
+        }
 
-		char GetInput() => Char.ToLower(Console.ReadKey().KeyChar);
+        bool IsDraw() => table.Skip(1).All(key => key != '.');
 
-		void NextPlayer() => currentPlayer = (currentPlayer + 1) % players;
+        void ClearOutput() => Console.Clear();
 
-		bool IsValidInput(char input) =>
-			keyMapping.ContainsKey(""+input) && table[keyMapping[""+input]] == '.';
-	}
+        char GetInput() => Char.ToLower(Console.ReadKey().KeyChar);
+
+        void NextPlayer() => currentPlayer = (currentPlayer + 1) % players;
+
+        bool IsValidInput(char input) =>
+            keyMapping.ContainsKey("" + input) && table[keyMapping["" + input]] == '.';
+    }
 }
