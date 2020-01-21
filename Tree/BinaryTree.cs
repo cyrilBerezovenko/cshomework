@@ -8,8 +8,8 @@ namespace Tree {
 
 	class BinaryTree<V> where V : IComparable<V> {
 
-		TreeNode<V> root = null;
-		long length = 0;
+		private TreeNode<V> root = null;
+		public long length { get; private set; }
 
 		public BinaryTree() {}
 

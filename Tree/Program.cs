@@ -29,6 +29,7 @@ namespace Tree {
 			WriteLine(tree.Find(16));
 
 			WriteLine(tree);
+			WriteLine(tree.length);
 		}
 	}
 }
