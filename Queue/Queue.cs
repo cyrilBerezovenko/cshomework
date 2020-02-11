@@ -8,66 +8,54 @@ namespace Queue {
 
 	class MyQueue<T> {
 
-		private const int initLength = 100;
+		private class Node {
 
-		private T[] array;
+			public Node next;
+			public T value;
 
-		public int Length { get; private set; }
-
-		private int _start;
-		private int start {
-			get => _start;
-			set {
-				_start = value;
-				Length = _end - _start;
+			public Node(T value) {
+				this.value = value;
 			}
 		}
 
-		private int _end;
-		private int end {
-			get => _end;
-			set {
-				_end = value;
-				Length = _end - _start;
-			}
-		}
-
-		public MyQueue() {
-			array = new T[initLength];
-			start = 0;
-			end = 0;
-			Length = 0;
-		}
+		Node start;
+		Node end;
+		int length;
 
 		public MyQueue(List<T> list) {
-			array = list.ToArray();
-			start = 0;
-			end = array.Length;
-			Length = array.Length;
+			foreach(T value in list)
+				Push(value);
 		}
 
-		public bool IsEmpty() => Length == 0;
+		public T Top() =>
+			length != 0 ? start.value : throw new InvalidOperationException();
 
-		public T Top() => 
-			!IsEmpty() ? array[start  ] : throw new InvalidOperationException();
-
-		public T Pop() =>
-			!IsEmpty() ? array[start++] : throw new InvalidOperationException();
+		public T Pop() {
+			T value = Top();
+			start = start.next;
+			--length;
+			return value;
+		}
 
 		public void Push(T value) {
-			if (end == array.Length)
-				Enlarge();
-			array[end++] = value;
+			Node newNode = new Node(value);
+			if (length == 0)
+				start = end = newNode;
+			else {
+				end.next = newNode;
+				end = newNode;
+			}
+			++length;
 		}
 
-		private void Enlarge() {
-			T[] newArray = new T[end * 2 + 1];
-			for (int i = 0; i < end; i++)
-				newArray[i] = array[i];
-			array = newArray;
+		public override string ToString() {
+			string res = "";
+			Node cur = start;
+			while(cur != null) {
+				res += cur.value + " ";
+				cur = cur.next;
+			}
+			return res.Trim();
 		}
-
-		public override string ToString() =>
-			"[ " + string.Join(", ", array.Skip(start).Take(Length).ToArray()) + " ]";
 	}
 }
