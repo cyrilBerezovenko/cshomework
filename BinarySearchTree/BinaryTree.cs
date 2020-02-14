@@ -108,25 +108,8 @@ namespace BinarySearchTree
             return true;
         }
 
-		private IEnumerable<V> Enumerate(TreeNode<V> node) {
-			if (node == null)
-				yield break;
+		public IEnumerator<V> GetEnumerator() => ToList().GetEnumerator();
 
-			foreach (V value in Enumerate(node.left))
-				yield return value;
-
-			yield return node.value;
-
-			foreach (V value in Enumerate(node.right))
-				yield return value;
-		}
-
-		public IEnumerator<V> GetEnumerator() {
-			return Enumerate(root).GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			return (IEnumerator)GetEnumerator();
-		}
+		IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
 	}
 }
