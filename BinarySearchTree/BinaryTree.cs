@@ -1,16 +1,17 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tree
+namespace BinarySearchTree
 {
 
-    class BinaryTree<V> where V : IComparable<V>
+    public class BinaryTree<V> : IEnumerable<V> where V : IComparable<V>
     {
 
-        private TreeNode<V> root = null;
+        internal TreeNode<V> root = null;
         public long length { get; private set; }
 
         public BinaryTree() { }
@@ -21,7 +22,7 @@ namespace Tree
                 Add(el);
         }
 
-        public override string ToString() =>
+		public override string ToString() =>
             string.Join(" ", ToList());
 
         public bool Find(V value) =>
@@ -31,6 +32,7 @@ namespace Tree
         {
             List<V> list = new List<V>();
             root?.ToList(list);
+			list.GetEnumerator();
             return list;
         }
 
@@ -105,5 +107,26 @@ namespace Tree
             --length;
             return true;
         }
-    }
+
+		private IEnumerable<V> Enumerate(TreeNode<V> node) {
+			if (node == null)
+				yield break;
+
+			foreach (V value in Enumerate(node.left))
+				yield return value;
+
+			yield return node.value;
+
+			foreach (V value in Enumerate(node.right))
+				yield return value;
+		}
+
+		public IEnumerator<V> GetEnumerator() {
+			return Enumerate(root).GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() {
+			return (IEnumerator)GetEnumerator();
+		}
+	}
 }

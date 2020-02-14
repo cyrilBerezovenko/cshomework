@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BinarySearchTree;
 using static System.Console;
 using static Utils.Generator;
 using static Utils.ArrayExtension;
 
-namespace Tree
+namespace TreeTest
 {
 
     class Program
@@ -20,7 +21,11 @@ namespace Tree
 
             BinaryTree<int> tree = new BinaryTree<int>(new List<int>(array));
 
-            WriteLine(tree);
+            foreach(ValueType value in tree) 
+				Write(value + " ");
+			WriteLine();
+			
+
             WriteLine(tree.length);
             WriteLine("\n");
 

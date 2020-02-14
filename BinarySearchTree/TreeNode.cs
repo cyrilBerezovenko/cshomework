@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tree
+namespace BinarySearchTree
 {
 
     internal class TreeNode<V> where V : IComparable<V>
     {
 
-        public TreeNode<V> left; //todo encapsulation
+        public TreeNode<V> left;
         public TreeNode<V> right;
 
         public V value;
